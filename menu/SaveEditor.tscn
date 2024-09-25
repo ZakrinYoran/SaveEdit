@@ -1,0 +1,612 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://SaveEdit/menu/SaveEditor.gd" type="Script" id=1]
+[ext_resource path="res://menu/MenuTheme.tres" type="Theme" id=2]
+[ext_resource path="res://menu/TabsWithGamepadControl.gd" type="Script" id=3]
+[ext_resource path="res://SaveEdit/menu/SaveEditTheme.tres" type="Theme" id=4]
+[ext_resource path="res://SaveEdit/tools/general/EditNumeric.gd" type="Script" id=5]
+[ext_resource path="res://SaveEdit/tools/general/DisplayTab.gd" type="Script" id=6]
+[ext_resource path="res://SaveEdit/tools/crew/CrewOccupation.gd" type="Script" id=7]
+[ext_resource path="res://SaveEdit/tools/general/ObjectSelect.gd" type="Script" id=8]
+[ext_resource path="res://SaveEdit/tools/astrogation/test.gd" type="Script" id=9]
+[ext_resource path="res://SaveEdit/tools/general/EditBool.gd" type="Script" id=10]
+[ext_resource path="res://SaveEdit/tools/crew/CrewLevelDisplay.gd" type="Script" id=11]
+[ext_resource path="res://SaveEdit/tools/crew/CrewAgenda.gd" type="Script" id=12]
+[ext_resource path="res://SaveEdit/tools/general/ClearData.gd" type="Script" id=13]
+[ext_resource path="res://SaveEdit/tools/factions/test.gd" type="Script" id=14]
+[ext_resource path="res://SaveEdit/tools/general/EditSlider.gd" type="Script" id=15]
+[ext_resource path="res://SaveEdit/tools/general/EditDateTime.gd" type="Script" id=17]
+
+[node name="SaveEditor" type="Popup"]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+FileExplorer = NodePath("FileDialog")
+
+[node name="DimBackground" type="ColorRect" parent="."]
+self_modulate = Color( 0, 0, 0, 0.870588 )
+anchor_left = -10.0
+anchor_top = -10.0
+anchor_right = 10.0
+anchor_bottom = 10.0
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+margin_right = 1418.0
+margin_bottom = 675.0
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+script = ExtResource( 3 )
+
+[node name="SAVEEDIT_GENERAL" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 50.0
+margin_right = -1.0
+margin_bottom = -1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Money" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_right = 1416.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Money"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_MONEY"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Money"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+max_value = 0.0
+allow_greater = true
+align = 2
+suffix = "E$"
+script = ExtResource( 5 )
+entry = "money"
+
+[node name="Insurance" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 86.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Insurance"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_INSURANCE"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Insurance"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+max_value = 0.0
+allow_greater = true
+align = 2
+suffix = "E$"
+script = ExtResource( 5 )
+entry = "insurance"
+
+[node name="Time" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 90.0
+margin_right = 1416.0
+margin_bottom = 131.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Time"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_CURRENT_TIME"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Time"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+
+[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Time/HBoxContainer"]
+margin_right = 351.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 17 )
+entry = "time"
+date_node = NodePath(".")
+time_node = NodePath("../Time")
+
+[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Time/HBoxContainer"]
+margin_left = 355.0
+margin_right = 706.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+
+[node name="Seed" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 135.0
+margin_right = 1416.0
+margin_bottom = 204.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Seed"]
+margin_right = 1416.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Seed/HBoxContainer"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "MENU_NEW_GAME_SEED"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Seed/HBoxContainer"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+max_value = 1337.0
+align = 2
+script = ExtResource( 5 )
+entry = "seed"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Seed"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+max_value = 1337.0
+script = ExtResource( 15 )
+entry = "seed"
+box = NodePath("../HBoxContainer/SpinBox")
+
+[node name="ClearLogs" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 208.0
+margin_right = 1416.0
+margin_bottom = 249.0
+text = "SAVEEDIT_CLEAR_LOGS"
+script = ExtResource( 13 )
+data = "logs"
+type = "Array"
+
+[node name="SAVEEDIT_ASTROGATION" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 50.0
+margin_right = -1.0
+margin_bottom = -1.0
+script = ExtResource( 6 )
+category = "astrogation"
+option_button = NodePath("VBoxContainer/POIs")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="POIs" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+script = ExtResource( 8 )
+call_group = "save_edit_astrogation"
+call_func = "_on_data_changed"
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 84.0
+autowrap = true
+script = ExtResource( 9 )
+
+[node name="Bools" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+margin_top = 88.0
+margin_right = 1416.0
+margin_bottom = 129.0
+
+[node name="Empheral" type="CheckButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Bools"]
+margin_right = 706.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_POI_EMPHERAL"
+script = ExtResource( 10 )
+path = "astrogation"
+entry = "empheral"
+group_suffix = "_astrogation"
+
+[node name="Trackable" type="CheckButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Bools"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_POI_TRACKABLE"
+script = ExtResource( 10 )
+path = "astrogation"
+entry = "trackable"
+group_suffix = "_astrogation"
+
+[node name="Time" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+margin_top = 133.0
+margin_right = 1416.0
+margin_bottom = 174.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_POI_TIME"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+
+[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time/HBoxContainer"]
+margin_right = 351.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 17 )
+path = "astrogation"
+entry = "time"
+group_suffix = "_astrogation"
+date_node = NodePath(".")
+time_node = NodePath("../Time")
+
+[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time/HBoxContainer"]
+margin_left = 355.0
+margin_right = 706.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+
+[node name="Since" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+margin_top = 178.0
+margin_right = 1416.0
+margin_bottom = 219.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_POI_SINCE"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+
+[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since/HBoxContainer"]
+margin_right = 351.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 17 )
+path = "astrogation"
+entry = "since"
+group_suffix = "_astrogation"
+date_node = NodePath(".")
+time_node = NodePath("../Time")
+
+[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since/HBoxContainer"]
+margin_left = 355.0
+margin_right = 706.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+margin_top = 223.0
+margin_right = 1416.0
+margin_bottom = 624.0
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Delete" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/HBoxContainer2"]
+margin_top = 360.0
+margin_right = 706.0
+margin_bottom = 401.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+disabled = true
+text = "SAVEEDIT_POI_DELETE"
+
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/HBoxContainer2"]
+margin_left = 710.0
+margin_top = 360.0
+margin_right = 1416.0
+margin_bottom = 401.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+disabled = true
+text = "SAVEEDIT_POI_ADD"
+
+[node name="ENCELADUS_CREW" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 50.0
+margin_right = -1.0
+margin_bottom = -1.0
+script = ExtResource( 6 )
+category = "crew"
+option_button = NodePath("Crew/Name")
+
+[node name="Crew" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Name" type="OptionButton" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_right = 1416.0
+margin_bottom = 41.0
+align = 1
+script = ExtResource( 8 )
+call_group = "save_edit_crew"
+call_func = "_on_data_changed"
+
+[node name="Occupation" type="OptionButton" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 86.0
+script = ExtResource( 7 )
+
+[node name="Agenda" type="OptionButton" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_top = 90.0
+margin_right = 1416.0
+margin_bottom = 131.0
+disabled = true
+script = ExtResource( 12 )
+
+[node name="Salary" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_top = 135.0
+margin_right = 1416.0
+margin_bottom = 176.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Salary"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "CREW_SALARY"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Salary"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+allow_greater = true
+align = 2
+script = ExtResource( 5 )
+path = "crew"
+entry = "salary"
+group_suffix = "_crew"
+
+[node name="Morale" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_top = 180.0
+margin_right = 1416.0
+margin_bottom = 249.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Morale"]
+margin_right = 1416.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Morale/HBoxContainer"]
+margin_top = 1.0
+margin_right = 706.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_CREW_MORALE"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Morale/HBoxContainer"]
+margin_left = 710.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+align = 2
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Morale"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+script = ExtResource( 15 )
+path = "crew"
+entry = "morale"
+group_suffix = "_crew"
+box = NodePath("../HBoxContainer/SpinBox")
+
+[node name="Experience" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_top = 253.0
+margin_right = 1416.0
+margin_bottom = 322.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience"]
+margin_right = 1416.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience/HBoxContainer"]
+margin_top = 1.0
+margin_right = 469.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "CREW_EXPERIENCE"
+
+[node name="Level" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience/HBoxContainer"]
+margin_left = 473.0
+margin_top = 1.0
+margin_right = 942.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 11 )
+type = "Experience"
+source = NodePath("../SpinBox")
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience/HBoxContainer"]
+margin_left = 946.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+align = 2
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+script = ExtResource( 15 )
+path = "crew"
+entry = "experience"
+group_suffix = "_crew"
+box = NodePath("../HBoxContainer/SpinBox")
+
+[node name="Talent" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_top = 326.0
+margin_right = 1416.0
+margin_bottom = 395.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent"]
+margin_right = 1416.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent/HBoxContainer"]
+margin_top = 1.0
+margin_right = 469.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "CREW_EDUCATION"
+
+[node name="Level" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent/HBoxContainer"]
+margin_left = 473.0
+margin_top = 1.0
+margin_right = 942.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 11 )
+type = "Talent"
+source = NodePath("../SpinBox")
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent/HBoxContainer"]
+margin_left = 946.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+align = 2
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+script = ExtResource( 15 )
+path = "crew"
+entry = "talent"
+group_suffix = "_crew"
+box = NodePath("../HBoxContainer/SpinBox")
+
+[node name="SAVEEDIT_FACTIONS" type="Tabs" parent="VBoxContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 50.0
+margin_right = -1.0
+margin_bottom = -1.0
+script = ExtResource( 6 )
+category = "factions"
+option_button = NodePath("VBoxContainer/OptionButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/VBoxContainer"]
+margin_right = 1416.0
+margin_bottom = 41.0
+script = ExtResource( 8 )
+call_group = "save_edit_factions"
+call_func = "_on_data_changed"
+
+[node name="Label" type="RichTextLabel" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/VBoxContainer"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 624.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 14 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 679.0
+margin_right = 1418.0
+margin_bottom = 720.0
+
+[node name="SaveGame" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 440.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_SAVE_GAME"
+
+[node name="ExportGame" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 444.0
+margin_right = 934.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_EXPORT_GAME"
+
+[node name="ImportGame" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 938.0
+margin_right = 1418.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_IMPORT_GAME"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -640.0
+margin_top = -360.0
+margin_right = 640.0
+margin_bottom = 360.0
+theme = ExtResource( 4 )
+access = 2
+filters = PoolStringArray( "*.txt ; Text Files" )
+
+[connection signal="about_to_show" from="." to="." method="_about_to_show"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveGame" to="." method="_on_SaveGame_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ExportGame" to="." method="_on_ExportGame_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ImportGame" to="." method="_on_ImportGame_pressed"]
