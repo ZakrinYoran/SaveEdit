@@ -34,3 +34,12 @@ func _on_data_changed(target : String = ""):
 
 	value = data[entry]
 	if box: (box.value = data[entry])
+	editable = true
+
+func _on_no_target():
+	data = {}
+	if box: 
+		box.editable = false
+		box.value = 0
+	editable = false
+	value = 0

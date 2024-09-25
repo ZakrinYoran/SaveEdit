@@ -1,4 +1,4 @@
-extends CheckButton
+extends LineEdit
 
 
 export (String) var path = ""
@@ -9,10 +9,10 @@ var data : Dictionary
 
 func _ready():
 	add_to_group("save_edit%s" % group_suffix)
-	connect("toggled", self, "_on_toggled")
+	connect("text_entered", self, "_on_text_entered")
 
-func _on_toggled(new_value):
-	data[entry] = new_value
+func _on_text_entered(text:String):
+	data[entry] = text
 
 func _on_save_changed():
 	_on_data_changed()
@@ -25,10 +25,10 @@ func _on_data_changed(target : String = ""):
 	if target:
 		data = data[target]
 
-	pressed = data[entry]
-	disabled = false
+	text = data[entry]
+	editable = true
 
 func _on_no_target():
 	data = {}
-	disabled = true
-	pressed = false
+	editable = false
+	text = ""

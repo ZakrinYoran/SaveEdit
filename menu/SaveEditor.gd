@@ -1,11 +1,13 @@
 extends Popup
 
 export (NodePath) var FileExplorer
+export (NodePath) var AsteroidField
 
 var import : bool = false
 
 func _ready():
 	FileExplorer = get_node(FileExplorer)
+	AsteroidField = get_node(AsteroidField)
 	FileExplorer.connect("file_selected", self, "_on_file_selected")
 
 func _on_SaveGame_pressed():
@@ -49,6 +51,9 @@ func saveToRaw(path : String):
 
 func loadForEditing():
 	CurrentGame.init()
+	if not CurrentGame.hasSaveGame():
+		CurrentGame.state = CurrentGame.initialState.duplicate(true)
+		return 
 	var file := File.new()
 	file.open_encrypted_with_pass(CurrentGame.saveFile, File.READ, CurrentGame.password)
 	var data := file.get_line()
@@ -60,10 +65,12 @@ func loadForEditing():
 var lastFocus = null
 func _about_to_show():
 	lastFocus = get_focus_owner()
+	AsteroidField.set_process(false)
 	loadForEditing()
 	get_tree().call_group("save_edit", "_on_save_changed")
 
-
+func _on_SaveEditor_popup_hide():
+	AsteroidField.set_process(true)
 
 
 
@@ -93,3 +100,6 @@ func _unhandled_input(event):
 	if visible and event.is_action_pressed("ui_cancel"):
 		cancel()
 		get_tree().set_input_as_handled()
+
+
+

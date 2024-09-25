@@ -26,3 +26,9 @@ func _on_data_changed(target : String = ""):
 		data = data[target]
 
 	value = data[entry]
+	editable = true
+
+func _on_no_target():
+	data = {}
+	editable = false
+	value = 0

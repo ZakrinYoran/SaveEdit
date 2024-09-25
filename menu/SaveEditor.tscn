@@ -1,27 +1,38 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://SaveEdit/menu/SaveEditor.gd" type="Script" id=1]
 [ext_resource path="res://menu/MenuTheme.tres" type="Theme" id=2]
 [ext_resource path="res://menu/TabsWithGamepadControl.gd" type="Script" id=3]
 [ext_resource path="res://SaveEdit/menu/SaveEditTheme.tres" type="Theme" id=4]
 [ext_resource path="res://SaveEdit/tools/general/EditNumeric.gd" type="Script" id=5]
-[ext_resource path="res://SaveEdit/tools/general/DisplayTab.gd" type="Script" id=6]
+[ext_resource path="res://ring/ring-visual.png" type="Texture" id=6]
 [ext_resource path="res://SaveEdit/tools/crew/CrewOccupation.gd" type="Script" id=7]
 [ext_resource path="res://SaveEdit/tools/general/ObjectSelect.gd" type="Script" id=8]
-[ext_resource path="res://SaveEdit/tools/astrogation/test.gd" type="Script" id=9]
 [ext_resource path="res://SaveEdit/tools/general/EditBool.gd" type="Script" id=10]
 [ext_resource path="res://SaveEdit/tools/crew/CrewLevelDisplay.gd" type="Script" id=11]
 [ext_resource path="res://SaveEdit/tools/crew/CrewAgenda.gd" type="Script" id=12]
 [ext_resource path="res://SaveEdit/tools/general/ClearData.gd" type="Script" id=13]
 [ext_resource path="res://SaveEdit/tools/factions/test.gd" type="Script" id=14]
 [ext_resource path="res://SaveEdit/tools/general/EditSlider.gd" type="Script" id=15]
+[ext_resource path="res://SaveEdit/tools/astrogation/RemoveLocation.gd" type="Script" id=16]
 [ext_resource path="res://SaveEdit/tools/general/EditDateTime.gd" type="Script" id=17]
+[ext_resource path="res://SaveEdit/tools/general/EditString.gd" type="Script" id=18]
+[ext_resource path="res://SaveEdit/tools/general/RenameObject.gd" type="Script" id=19]
+[ext_resource path="res://SaveEdit/tools/astrogation/AddLocation.gd" type="Script" id=20]
+[ext_resource path="res://SaveEdit/tools/astrogation/EditPosition.gd" type="Script" id=21]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.738019, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.990415, 0.00819671 ), -2.86741, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.0037037, 0.718518, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0, 0.0627451, 0, 1, 0, 1, 0, 0 )
 
 [node name="SaveEditor" type="Popup"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
+popup_exclusive = true
 script = ExtResource( 1 )
 FileExplorer = NodePath("FileDialog")
 
@@ -31,7 +42,6 @@ anchor_left = -10.0
 anchor_top = -10.0
 anchor_right = 10.0
 anchor_bottom = 10.0
-mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -45,7 +55,6 @@ theme = ExtResource( 4 )
 script = ExtResource( 3 )
 
 [node name="SAVEEDIT_GENERAL" type="Tabs" parent="VBoxContainer/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
@@ -126,7 +135,7 @@ size_flags_horizontal = 3
 margin_right = 351.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-align = 2
+align = 1
 script = ExtResource( 17 )
 entry = "time"
 date_node = NodePath(".")
@@ -137,7 +146,7 @@ margin_left = 355.0
 margin_right = 706.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-align = 2
+align = 1
 
 [node name="Seed" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
 margin_top = 135.0
@@ -182,7 +191,14 @@ margin_bottom = 249.0
 text = "SAVEEDIT_CLEAR_LOGS"
 script = ExtResource( 13 )
 data = "logs"
-type = "Array"
+
+[node name="ClearDensity" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 253.0
+margin_right = 1416.0
+margin_bottom = 294.0
+text = "SAVEEDIT_CLEAR_DENSITY"
+script = ExtResource( 13 )
+data = "density"
 
 [node name="SAVEEDIT_ASTROGATION" type="Tabs" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -192,36 +208,64 @@ margin_left = 1.0
 margin_top = 50.0
 margin_right = -1.0
 margin_bottom = -1.0
-script = ExtResource( 6 )
-category = "astrogation"
-option_button = NodePath("VBoxContainer/POIs")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="POIs" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
 margin_right = 1416.0
+margin_bottom = 579.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer"]
+margin_top = 16.0
+margin_right = 1416.0
+margin_bottom = 849.0
+size_flags_horizontal = 3
+
+[node name="POIs" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
+margin_right = 1396.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 script = ExtResource( 8 )
+category = "astrogation"
 call_group = "save_edit_astrogation"
 call_func = "_on_data_changed"
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+[node name="Strings" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_top = 45.0
-margin_right = 1416.0
-margin_bottom = 84.0
-autowrap = true
-script = ExtResource( 9 )
+margin_right = 1396.0
+margin_bottom = 86.0
 
-[node name="Bools" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
-margin_top = 88.0
-margin_right = 1416.0
-margin_bottom = 129.0
+[node name="Name" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Strings"]
+margin_right = 696.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+placeholder_text = "SAVEEDIT_POI_NAME"
+script = ExtResource( 19 )
+path = "astrogation"
+group_suffix = "_astrogation"
+selector_node = NodePath("../../POIs")
 
-[node name="Empheral" type="CheckButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Bools"]
-margin_right = 706.0
+[node name="Event" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Strings"]
+margin_left = 700.0
+margin_right = 1396.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+placeholder_text = "SAVEEDIT_POI_TYPE"
+script = ExtResource( 18 )
+path = "astrogation"
+entry = "event"
+group_suffix = "_astrogation"
+
+[node name="Bools" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 90.0
+margin_right = 1396.0
+margin_bottom = 131.0
+
+[node name="Empheral" type="CheckButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Bools"]
+margin_right = 696.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 text = "SAVEEDIT_POI_EMPHERAL"
@@ -230,9 +274,9 @@ path = "astrogation"
 entry = "empheral"
 group_suffix = "_astrogation"
 
-[node name="Trackable" type="CheckButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Bools"]
-margin_left = 710.0
-margin_right = 1416.0
+[node name="Trackable" type="CheckButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Bools"]
+margin_left = 700.0
+margin_right = 1396.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 text = "SAVEEDIT_POI_TRACKABLE"
@@ -241,105 +285,176 @@ path = "astrogation"
 entry = "trackable"
 group_suffix = "_astrogation"
 
-[node name="Time" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
-margin_top = 133.0
-margin_right = 1416.0
-margin_bottom = 174.0
+[node name="Time" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 135.0
+margin_right = 1396.0
+margin_bottom = 176.0
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time"]
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Time"]
 margin_top = 1.0
-margin_right = 706.0
+margin_right = 352.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 text = "SAVEEDIT_POI_TIME"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time"]
-margin_left = 710.0
-margin_right = 1416.0
+[node name="Now" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Time"]
+margin_left = 356.0
+margin_right = 763.0
 margin_bottom = 41.0
-size_flags_horizontal = 3
+text = "SAVEEDIT_TIME_NOW"
 
-[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time/HBoxContainer"]
-margin_right = 351.0
+[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Time"]
+margin_left = 767.0
+margin_right = 1079.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-align = 2
+align = 1
 script = ExtResource( 17 )
 path = "astrogation"
 entry = "time"
 group_suffix = "_astrogation"
 date_node = NodePath(".")
 time_node = NodePath("../Time")
+button_node = NodePath("../Now")
 
-[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Time/HBoxContainer"]
-margin_left = 355.0
-margin_right = 706.0
+[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Time"]
+margin_left = 1083.0
+margin_right = 1396.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-align = 2
+align = 1
 
-[node name="Since" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
-margin_top = 178.0
-margin_right = 1416.0
-margin_bottom = 219.0
+[node name="Since" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 180.0
+margin_right = 1396.0
+margin_bottom = 221.0
 
-[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since"]
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Since"]
 margin_top = 1.0
-margin_right = 706.0
+margin_right = 371.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 text = "SAVEEDIT_POI_SINCE"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since"]
-margin_left = 710.0
-margin_right = 1416.0
+[node name="Now" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Since"]
+margin_left = 375.0
+margin_right = 782.0
 margin_bottom = 41.0
-size_flags_horizontal = 3
+text = "SAVEEDIT_TIME_NOW"
 
-[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since/HBoxContainer"]
-margin_right = 351.0
+[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Since"]
+margin_left = 786.0
+margin_right = 1089.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-align = 2
+align = 1
 script = ExtResource( 17 )
 path = "astrogation"
 entry = "since"
 group_suffix = "_astrogation"
 date_node = NodePath(".")
 time_node = NodePath("../Time")
+button_node = NodePath("../Now")
 
-[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/Since/HBoxContainer"]
-margin_left = 355.0
+[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Since"]
+margin_left = 1093.0
+margin_right = 1396.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 1
+
+[node name="Position" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 225.0
+margin_right = 1396.0
+margin_bottom = 833.0
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position"]
+margin_right = 1396.0
+margin_bottom = 4.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position"]
+margin_top = 8.0
+margin_right = 1396.0
+margin_bottom = 608.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer"]
+margin_right = 792.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/HBoxContainer"]
+margin_right = 792.0
+margin_bottom = 39.0
+text = "SAVEEDIT_POI_POSITION"
+script = ExtResource( 21 )
+path = "astrogation"
+entry = "vector"
+group_suffix = "_astrogation"
+x_node = NodePath("../Horizontal")
+y_node = NodePath("../Vertical")
+map_node = NodePath("../../TextureRect")
+label_node = NodePath("../../TextureRect/Node2D")
+
+[node name="Horizontal" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/HBoxContainer"]
+margin_top = 43.0
+margin_right = 792.0
+margin_bottom = 84.0
+max_value = 3e+07
+prefix = " X:"
+suffix = "m "
+
+[node name="Vertical" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/HBoxContainer"]
+margin_top = 88.0
+margin_right = 792.0
+margin_bottom = 129.0
+max_value = 3e+07
+prefix = " Y:"
+suffix = "m "
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer"]
+margin_left = 796.0
+margin_right = 1396.0
+margin_bottom = 600.0
+texture = ExtResource( 6 )
+stretch_mode = 6
+
+[node name="Node2D" type="Node2D" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/TextureRect"]
+position = Vector2( 155, 130 )
+
+[node name="Line2D" type="Line2D" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/TextureRect/Node2D"]
+points = PoolVector2Array( -32, -32, 0, 0 )
+width = 22.0
+width_curve = SubResource( 1 )
+default_color = Color( 0, 1, 0, 0.25098 )
+gradient = SubResource( 2 )
+joint_mode = 2
+begin_cap_mode = 2
+
+[node name="AddRemove" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
+margin_top = 583.0
+margin_right = 1416.0
+margin_bottom = 624.0
+alignment = 2
+
+[node name="Delete" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/AddRemove"]
 margin_right = 706.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-align = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer"]
-margin_top = 223.0
-margin_right = 1416.0
-margin_bottom = 624.0
-size_flags_vertical = 3
-alignment = 2
-
-[node name="Delete" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/HBoxContainer2"]
-margin_top = 360.0
-margin_right = 706.0
-margin_bottom = 401.0
-size_flags_horizontal = 3
 size_flags_vertical = 8
-disabled = true
 text = "SAVEEDIT_POI_DELETE"
+script = ExtResource( 16 )
+selector_node = NodePath("../../ScrollContainer/VBoxContainer/POIs")
 
-[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/HBoxContainer2"]
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/AddRemove"]
 margin_left = 710.0
-margin_top = 360.0
 margin_right = 1416.0
-margin_bottom = 401.0
+margin_bottom = 41.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
-disabled = true
 text = "SAVEEDIT_POI_ADD"
+script = ExtResource( 20 )
+selector_node = NodePath("../../ScrollContainer/VBoxContainer/POIs")
 
 [node name="ENCELADUS_CREW" type="Tabs" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -349,9 +464,6 @@ margin_left = 1.0
 margin_top = 50.0
 margin_right = -1.0
 margin_bottom = -1.0
-script = ExtResource( 6 )
-category = "crew"
-option_button = NodePath("Crew/Name")
 
 [node name="Crew" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW"]
 anchor_right = 1.0
@@ -362,26 +474,33 @@ margin_right = 1416.0
 margin_bottom = 41.0
 align = 1
 script = ExtResource( 8 )
+category = "crew"
 call_group = "save_edit_crew"
 call_func = "_on_data_changed"
 
-[node name="Occupation" type="OptionButton" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
 margin_top = 45.0
 margin_right = 1416.0
 margin_bottom = 86.0
+
+[node name="Occupation" type="OptionButton" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/HBoxContainer"]
+margin_right = 706.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
 script = ExtResource( 7 )
 
-[node name="Agenda" type="OptionButton" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
-margin_top = 90.0
+[node name="Agenda" type="OptionButton" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/HBoxContainer"]
+margin_left = 710.0
 margin_right = 1416.0
-margin_bottom = 131.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
 disabled = true
 script = ExtResource( 12 )
 
 [node name="Salary" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
-margin_top = 135.0
+margin_top = 90.0
 margin_right = 1416.0
-margin_bottom = 176.0
+margin_bottom = 131.0
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Salary"]
 margin_top = 1.0
@@ -403,9 +522,9 @@ entry = "salary"
 group_suffix = "_crew"
 
 [node name="Morale" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
-margin_top = 180.0
+margin_top = 135.0
 margin_right = 1416.0
-margin_bottom = 249.0
+margin_bottom = 204.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Morale"]
 margin_right = 1416.0
@@ -441,9 +560,9 @@ group_suffix = "_crew"
 box = NodePath("../HBoxContainer/SpinBox")
 
 [node name="Experience" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
-margin_top = 253.0
+margin_top = 208.0
 margin_right = 1416.0
-margin_bottom = 322.0
+margin_bottom = 277.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience"]
 margin_right = 1416.0
@@ -490,9 +609,9 @@ group_suffix = "_crew"
 box = NodePath("../HBoxContainer/SpinBox")
 
 [node name="Talent" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
-margin_top = 326.0
+margin_top = 281.0
 margin_right = 1416.0
-margin_bottom = 395.0
+margin_bottom = 350.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent"]
 margin_right = 1416.0
@@ -539,15 +658,13 @@ group_suffix = "_crew"
 box = NodePath("../HBoxContainer/SpinBox")
 
 [node name="SAVEEDIT_FACTIONS" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
 margin_top = 50.0
 margin_right = -1.0
 margin_bottom = -1.0
-script = ExtResource( 6 )
-category = "factions"
-option_button = NodePath("VBoxContainer/OptionButton")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS"]
 anchor_right = 1.0
@@ -557,6 +674,7 @@ anchor_bottom = 1.0
 margin_right = 1416.0
 margin_bottom = 41.0
 script = ExtResource( 8 )
+category = "factions"
 call_group = "save_edit_factions"
 call_func = "_on_data_changed"
 
@@ -607,6 +725,7 @@ access = 2
 filters = PoolStringArray( "*.txt ; Text Files" )
 
 [connection signal="about_to_show" from="." to="." method="_about_to_show"]
+[connection signal="popup_hide" from="." to="." method="_on_SaveEditor_popup_hide"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveGame" to="." method="_on_SaveGame_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ExportGame" to="." method="_on_ExportGame_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ImportGame" to="." method="_on_ImportGame_pressed"]
