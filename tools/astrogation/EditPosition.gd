@@ -26,14 +26,14 @@ func _ready():
 	add_to_group("save_edit%s" % group_suffix)
 
 func _on_value_changed(_v):
-	data[entry] = Vector2(x_node.value, y_node.value)
-	set_position()
+	data[entry] = Vector2(x_node.value * 10000, y_node.value * 10000)
+	set_marker_position()
 
 func set_value():
 	var vec = data[entry]
-	if x_node: x_node.value = vec.x
-	if y_node: y_node.value = vec.y
-	set_position()
+	if x_node: x_node.value = vec.x / 10000.0
+	if y_node: y_node.value = vec.y / 10000.0
+	set_marker_position()
 
 func _on_save_changed():
 	_on_data_changed()
@@ -55,11 +55,11 @@ func _on_data_changed(target := ""):
 func _on_gui_input(event : InputEvent):
 	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(1):
 		var vec : Vector2 = event.position / map_node.rect_size * 30000000
-		if x_node: x_node.value = vec.x
-		if y_node: y_node.value = vec.y
+		if x_node: x_node.value = vec.x / 10000.0
+		if y_node: y_node.value = vec.y / 10000.0
 		data[entry] = vec
 
-func set_position():
+func set_marker_position():
 	var vec = data[entry]
 	var rec = map_node.rect_size
 	if label_node and map_node:

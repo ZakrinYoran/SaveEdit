@@ -394,23 +394,25 @@ group_suffix = "_astrogation"
 x_node = NodePath("../Horizontal")
 y_node = NodePath("../Vertical")
 map_node = NodePath("../../TextureRect")
-label_node = NodePath("../../TextureRect/Node2D")
+label_node = NodePath("../../TextureRect/PositionMarker")
 
 [node name="Horizontal" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/HBoxContainer"]
 margin_top = 43.0
 margin_right = 792.0
 margin_bottom = 84.0
-max_value = 3e+07
+max_value = 3000.0
+step = 0.001
 prefix = " X:"
-suffix = "m "
+suffix = "km "
 
 [node name="Vertical" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/HBoxContainer"]
 margin_top = 88.0
 margin_right = 792.0
 margin_bottom = 129.0
-max_value = 3e+07
+max_value = 3000.0
+step = 0.001
 prefix = " Y:"
-suffix = "m "
+suffix = "km "
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer"]
 margin_left = 796.0
@@ -419,10 +421,9 @@ margin_bottom = 600.0
 texture = ExtResource( 6 )
 stretch_mode = 6
 
-[node name="Node2D" type="Node2D" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/TextureRect"]
-position = Vector2( 155, 130 )
+[node name="PositionMarker" type="Node2D" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/TextureRect"]
 
-[node name="Line2D" type="Line2D" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/TextureRect/Node2D"]
+[node name="Line2D" type="Line2D" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Position/HBoxContainer/TextureRect/PositionMarker"]
 points = PoolVector2Array( -32, -32, 0, 0 )
 width = 22.0
 width_curve = SubResource( 1 )
