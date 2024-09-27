@@ -2,12 +2,14 @@ extends Popup
 
 export (NodePath) var FileExplorer
 export (NodePath) var AsteroidField
+export (NodePath) var AsteroidMap
 
 var import : bool = false
 
 func _ready():
 	FileExplorer = get_node(FileExplorer)
 	AsteroidField = get_node(AsteroidField)
+	AsteroidMap = get_node(AsteroidMap)
 	FileExplorer.connect("file_selected", self, "_on_file_selected")
 
 func _on_SaveGame_pressed():
@@ -66,11 +68,13 @@ var lastFocus = null
 func _about_to_show():
 	lastFocus = get_focus_owner()
 	AsteroidField.set_process(false)
+	AsteroidMap.set_process(false)
 	loadForEditing()
 	get_tree().call_group("save_edit", "_on_save_changed")
 
 func _on_SaveEditor_popup_hide():
 	AsteroidField.set_process(true)
+	AsteroidMap.set_process(true)
 
 
 

@@ -8,18 +8,18 @@
 [ext_resource path="res://ring/ring-visual.png" type="Texture" id=6]
 [ext_resource path="res://SaveEdit/tools/crew/CrewOccupation.gd" type="Script" id=7]
 [ext_resource path="res://SaveEdit/tools/general/ObjectSelect.gd" type="Script" id=8]
+[ext_resource path="res://SaveEdit/tools/crew/CrewWages.gd" type="Script" id=9]
 [ext_resource path="res://SaveEdit/tools/general/EditBool.gd" type="Script" id=10]
 [ext_resource path="res://SaveEdit/tools/crew/CrewLevelDisplay.gd" type="Script" id=11]
 [ext_resource path="res://SaveEdit/tools/crew/CrewAgenda.gd" type="Script" id=12]
-[ext_resource path="res://SaveEdit/tools/general/ClearData.gd" type="Script" id=13]
-[ext_resource path="res://SaveEdit/tools/factions/test.gd" type="Script" id=14]
-[ext_resource path="res://SaveEdit/tools/general/EditSlider.gd" type="Script" id=15]
-[ext_resource path="res://SaveEdit/tools/astrogation/RemoveLocation.gd" type="Script" id=16]
+[ext_resource path="res://menu/keybinds/arrow-right.png" type="Texture" id=14]
+[ext_resource path="res://SaveEdit/tools/general/ObjectRemove.gd" type="Script" id=15]
+[ext_resource path="res://SaveEdit/tools/general/ObjectAdd.gd" type="Script" id=16]
 [ext_resource path="res://SaveEdit/tools/general/EditDateTime.gd" type="Script" id=17]
 [ext_resource path="res://SaveEdit/tools/general/EditString.gd" type="Script" id=18]
-[ext_resource path="res://SaveEdit/tools/general/RenameObject.gd" type="Script" id=19]
-[ext_resource path="res://SaveEdit/tools/astrogation/AddLocation.gd" type="Script" id=20]
-[ext_resource path="res://SaveEdit/tools/astrogation/EditPosition.gd" type="Script" id=21]
+[ext_resource path="res://SaveEdit/tools/general/ObjectRename.gd" type="Script" id=19]
+[ext_resource path="res://SaveEdit/tools/astrogation/AstrogationPosition.gd" type="Script" id=21]
+[ext_resource path="res://SaveEdit/tools/general/ObjectClear.gd" type="Script" id=22]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.738019, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.990415, 0.00819671 ), -2.86741, 0.0, 0, 0 ]
@@ -37,11 +37,11 @@ script = ExtResource( 1 )
 FileExplorer = NodePath("FileDialog")
 
 [node name="DimBackground" type="ColorRect" parent="."]
-self_modulate = Color( 0, 0, 0, 0.870588 )
 anchor_left = -10.0
 anchor_top = -10.0
 anchor_right = 10.0
 anchor_bottom = 10.0
+color = Color( 0, 0, 0, 0.870588 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -82,12 +82,12 @@ margin_left = 710.0
 margin_right = 1416.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-max_value = 0.0
-allow_greater = true
 align = 2
 suffix = "E$"
 script = ExtResource( 5 )
 entry = "money"
+node_paths = [ NodePath(".") ]
+range_max = inf
 
 [node name="Insurance" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
 margin_top = 45.0
@@ -106,12 +106,12 @@ margin_left = 710.0
 margin_right = 1416.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-max_value = 0.0
-allow_greater = true
 align = 2
 suffix = "E$"
 script = ExtResource( 5 )
 entry = "insurance"
+node_paths = [ NodePath(".") ]
+range_max = inf
 
 [node name="Time" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
 margin_top = 90.0
@@ -169,36 +169,41 @@ margin_left = 710.0
 margin_right = 1416.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-max_value = 1337.0
 align = 2
 script = ExtResource( 5 )
 entry = "seed"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_max = 1337.0
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Seed"]
 margin_top = 45.0
 margin_right = 1416.0
 margin_bottom = 69.0
 size_flags_horizontal = 3
-max_value = 1337.0
-script = ExtResource( 15 )
-entry = "seed"
-box = NodePath("../HBoxContainer/SpinBox")
 
 [node name="ClearLogs" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
 margin_top = 208.0
 margin_right = 1416.0
 margin_bottom = 249.0
 text = "SAVEEDIT_CLEAR_LOGS"
-script = ExtResource( 13 )
-data = "logs"
+script = ExtResource( 22 )
+path = "logs"
 
-[node name="ClearDensity" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+[node name="ClearDensityMap" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
 margin_top = 253.0
 margin_right = 1416.0
 margin_bottom = 294.0
-text = "SAVEEDIT_CLEAR_DENSITY"
-script = ExtResource( 13 )
-data = "density"
+text = "SAVEEDIT_CLEAR_DENSITY_MAP"
+script = ExtResource( 22 )
+path = "density.map"
+
+[node name="ClearDensityQueue" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 298.0
+margin_right = 1416.0
+margin_bottom = 339.0
+text = "SAVEEDIT_CLEAR_DENSITY_QUEUE"
+script = ExtResource( 22 )
+path = "density.queue"
 
 [node name="SAVEEDIT_ASTROGATION" type="Tabs" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -229,7 +234,7 @@ margin_right = 1396.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 script = ExtResource( 8 )
-category = "astrogation"
+path = "astrogation"
 call_group = "save_edit_astrogation"
 call_func = "_on_data_changed"
 
@@ -245,7 +250,7 @@ size_flags_horizontal = 3
 placeholder_text = "SAVEEDIT_POI_NAME"
 script = ExtResource( 19 )
 path = "astrogation"
-group_suffix = "_astrogation"
+group = "_astrogation"
 selector_node = NodePath("../../POIs")
 
 [node name="Event" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Strings"]
@@ -256,8 +261,8 @@ size_flags_horizontal = 3
 placeholder_text = "SAVEEDIT_POI_TYPE"
 script = ExtResource( 18 )
 path = "astrogation"
+group = "_astrogation"
 entry = "event"
-group_suffix = "_astrogation"
 
 [node name="Bools" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_top = 90.0
@@ -268,22 +273,24 @@ margin_bottom = 131.0
 margin_right = 696.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
+group = "_astrogation"
 text = "SAVEEDIT_POI_EMPHERAL"
 script = ExtResource( 10 )
 path = "astrogation"
+group = "_astrogation"
 entry = "empheral"
-group_suffix = "_astrogation"
 
 [node name="Trackable" type="CheckButton" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer/Bools"]
 margin_left = 700.0
 margin_right = 1396.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
+group = "_astrogation"
 text = "SAVEEDIT_POI_TRACKABLE"
 script = ExtResource( 10 )
 path = "astrogation"
+group = "_astrogation"
 entry = "trackable"
-group_suffix = "_astrogation"
 
 [node name="Time" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_top = 135.0
@@ -311,8 +318,8 @@ size_flags_horizontal = 3
 align = 1
 script = ExtResource( 17 )
 path = "astrogation"
+group = "_astrogation"
 entry = "time"
-group_suffix = "_astrogation"
 date_node = NodePath(".")
 time_node = NodePath("../Time")
 button_node = NodePath("../Now")
@@ -350,8 +357,8 @@ size_flags_horizontal = 3
 align = 1
 script = ExtResource( 17 )
 path = "astrogation"
+group = "_astrogation"
 entry = "since"
-group_suffix = "_astrogation"
 date_node = NodePath(".")
 time_node = NodePath("../Time")
 button_node = NodePath("../Now")
@@ -389,8 +396,8 @@ margin_bottom = 39.0
 text = "SAVEEDIT_POI_POSITION"
 script = ExtResource( 21 )
 path = "astrogation"
+group = "_astrogation"
 entry = "vector"
-group_suffix = "_astrogation"
 x_node = NodePath("../Horizontal")
 y_node = NodePath("../Vertical")
 map_node = NodePath("../../TextureRect")
@@ -438,13 +445,16 @@ margin_right = 1416.0
 margin_bottom = 624.0
 alignment = 2
 
-[node name="Delete" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/AddRemove"]
+[node name="Remove" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/AddRemove"]
 margin_right = 706.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
-text = "SAVEEDIT_POI_DELETE"
-script = ExtResource( 16 )
+group = "_astrogation"
+text = "SAVEEDIT_REMOVE"
+script = ExtResource( 15 )
+path = "astrogation"
+group = "_astrogation"
 selector_node = NodePath("../../ScrollContainer/VBoxContainer/POIs")
 
 [node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_ASTROGATION/VBoxContainer/AddRemove"]
@@ -453,8 +463,9 @@ margin_right = 1416.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
-text = "SAVEEDIT_POI_ADD"
-script = ExtResource( 20 )
+text = "SAVEEDIT_ADD"
+script = ExtResource( 16 )
+path = "astrogation"
 selector_node = NodePath("../../ScrollContainer/VBoxContainer/POIs")
 
 [node name="ENCELADUS_CREW" type="Tabs" parent="VBoxContainer/TabContainer"]
@@ -475,7 +486,7 @@ margin_right = 1416.0
 margin_bottom = 41.0
 align = 1
 script = ExtResource( 8 )
-category = "crew"
+path = "crew"
 call_group = "save_edit_crew"
 call_func = "_on_data_changed"
 
@@ -517,15 +528,60 @@ margin_bottom = 41.0
 size_flags_horizontal = 3
 allow_greater = true
 align = 2
+suffix = "E$"
 script = ExtResource( 5 )
 path = "crew"
+group = "_crew"
 entry = "salary"
-group_suffix = "_crew"
+node_paths = [ NodePath(".") ]
+range_max = inf
 
-[node name="Morale" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+[node name="Wages" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
 margin_top = 135.0
 margin_right = 1416.0
-margin_bottom = 204.0
+margin_bottom = 176.0
+
+[node name="Wages" type="Label" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Wages"]
+margin_top = 1.0
+margin_right = 356.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "CREW_SALARY_DUE"
+script = ExtResource( 9 )
+path = "crew"
+group = "_crew"
+date_node = NodePath("../Date")
+
+[node name="Now" type="Button" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Wages"]
+margin_left = 360.0
+margin_right = 767.0
+margin_bottom = 41.0
+text = "SAVEEDIT_TIME_NOW"
+
+[node name="Date" type="LineEdit" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Wages"]
+margin_left = 771.0
+margin_right = 1091.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 1
+script = ExtResource( 17 )
+path = "wages"
+group = "_crew_wages"
+date_node = NodePath(".")
+time_node = NodePath("../Time")
+button_node = NodePath("../Now")
+
+[node name="Time" type="LineEdit" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Wages"]
+margin_left = 1095.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 1
+
+[node name="Morale" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
+margin_top = 180.0
+margin_right = 1416.0
+margin_bottom = 249.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Morale"]
 margin_right = 1416.0
@@ -543,27 +599,26 @@ margin_left = 710.0
 margin_right = 1416.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-max_value = 1.0
-step = 0.001
 align = 2
+script = ExtResource( 5 )
+path = "crew"
+group = "_crew"
+entry = "morale"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -0.5
+range_max = 0.5
+range_step = 0.001
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Morale"]
 margin_top = 45.0
 margin_right = 1416.0
 margin_bottom = 69.0
 size_flags_horizontal = 3
-max_value = 1.0
-step = 0.001
-script = ExtResource( 15 )
-path = "crew"
-entry = "morale"
-group_suffix = "_crew"
-box = NodePath("../HBoxContainer/SpinBox")
 
 [node name="Experience" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
-margin_top = 208.0
+margin_top = 253.0
 margin_right = 1416.0
-margin_bottom = 277.0
+margin_bottom = 322.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience"]
 margin_right = 1416.0
@@ -592,27 +647,24 @@ margin_left = 946.0
 margin_right = 1416.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-max_value = 1.0
-step = 0.001
 align = 2
+script = ExtResource( 5 )
+path = "crew"
+group = "_crew"
+entry = "experience"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_step = 0.001
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Experience"]
 margin_top = 45.0
 margin_right = 1416.0
 margin_bottom = 69.0
 size_flags_horizontal = 3
-max_value = 1.0
-step = 0.001
-script = ExtResource( 15 )
-path = "crew"
-entry = "experience"
-group_suffix = "_crew"
-box = NodePath("../HBoxContainer/SpinBox")
 
 [node name="Talent" type="VBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew"]
-margin_top = 281.0
+margin_top = 326.0
 margin_right = 1416.0
-margin_bottom = 350.0
+margin_bottom = 395.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent"]
 margin_right = 1416.0
@@ -641,22 +693,19 @@ margin_left = 946.0
 margin_right = 1416.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-max_value = 1.0
-step = 0.001
 align = 2
+script = ExtResource( 5 )
+path = "crew"
+group = "_crew"
+entry = "talent"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_step = 0.001
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/ENCELADUS_CREW/Crew/Talent"]
 margin_top = 45.0
 margin_right = 1416.0
 margin_bottom = 69.0
 size_flags_horizontal = 3
-max_value = 1.0
-step = 0.001
-script = ExtResource( 15 )
-path = "crew"
-entry = "talent"
-group_suffix = "_crew"
-box = NodePath("../HBoxContainer/SpinBox")
 
 [node name="SAVEEDIT_FACTIONS" type="Tabs" parent="VBoxContainer/TabContainer"]
 visible = false
@@ -667,25 +716,714 @@ margin_top = 50.0
 margin_right = -1.0
 margin_bottom = -1.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/VBoxContainer"]
-margin_right = 1416.0
+[node name="SAVEEDIT_REP_FACTION" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 50.0
+margin_right = -1.0
+margin_bottom = -1.0
+
+[node name="Selectors" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION"]
+margin_right = 1424.0
+margin_bottom = 131.0
+
+[node name="From" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors"]
+margin_right = 676.0
+margin_bottom = 131.0
+size_flags_horizontal = 3
+
+[node name="From" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/From"]
+margin_right = 676.0
 margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_FROM"
 script = ExtResource( 8 )
-category = "factions"
+path = "factions"
+call_group = "save_edit_select_faction"
+call_func = "_on_data_changed"
+
+[node name="Name" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/From"]
+margin_top = 45.0
+margin_right = 676.0
+margin_bottom = 86.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/From/Name"]
+margin_top = 1.0
+margin_right = 342.0
+margin_bottom = 40.0
+text = "SAVEEDIT_RENAME"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/From/Name"]
+margin_left = 346.0
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+script = ExtResource( 19 )
+path = "factions"
+group = "_select_faction"
+selector_node = NodePath("../../From")
+
+[node name="AddRemove" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/From"]
+margin_top = 90.0
+margin_right = 676.0
+margin_bottom = 131.0
+
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/From/AddRemove"]
+margin_right = 299.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_ADD"
+script = ExtResource( 16 )
+path = "_factions"
+selector_node = NodePath("../../From")
+
+[node name="Remove" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/From/AddRemove"]
+margin_left = 303.0
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_select_faction"
+text = "SAVEEDIT_REMOVE"
+script = ExtResource( 15 )
+path = "_factions"
+group = "_select_faction"
+selector_node = NodePath("../../From")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors"]
+margin_left = 680.0
+margin_right = 744.0
+margin_bottom = 131.0
+texture = ExtResource( 14 )
+
+[node name="To" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors"]
+margin_left = 748.0
+margin_right = 1424.0
+margin_bottom = 131.0
+size_flags_horizontal = 3
+
+[node name="To" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/To"]
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_select_faction"
+text = "SAVEEDIT_REP_TO"
+script = ExtResource( 8 )
+group = "_select_faction"
 call_group = "save_edit_factions"
 call_func = "_on_data_changed"
 
-[node name="Label" type="RichTextLabel" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/VBoxContainer"]
+[node name="Name" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/To"]
 margin_top = 45.0
-margin_right = 1416.0
-margin_bottom = 624.0
+margin_right = 676.0
+margin_bottom = 86.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/To/Name"]
+margin_top = 1.0
+margin_right = 342.0
+margin_bottom = 40.0
+text = "SAVEEDIT_RENAME"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/To/Name"]
+margin_left = 346.0
+margin_right = 676.0
+margin_bottom = 41.0
 size_flags_horizontal = 3
+script = ExtResource( 19 )
+path = "factions"
+group = "_factions"
+selector_node = NodePath("../../To")
+
+[node name="AddRemove" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/To"]
+margin_top = 90.0
+margin_right = 676.0
+margin_bottom = 131.0
+
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/To/AddRemove"]
+margin_right = 299.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_select_faction"
+text = "SAVEEDIT_ADD"
+script = ExtResource( 16 )
+group = "_select_faction"
+selector_node = NodePath("../../To")
+
+[node name="Remove" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/Selectors/To/AddRemove"]
+margin_left = 303.0
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_factions"
+text = "SAVEEDIT_REMOVE"
+script = ExtResource( 15 )
+group = "_factions"
+selector_node = NodePath("../../To")
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION"]
+margin_top = 135.0
+margin_right = 1424.0
+margin_bottom = 528.0
 size_flags_vertical = 3
-script = ExtResource( 14 )
+columns = 2
+
+[node name="Curiosity" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer"]
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Curiosity"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Curiosity/HBoxContainer"]
+margin_top = 1.0
+margin_right = 466.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_CURIOSITY"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Curiosity/HBoxContainer"]
+margin_left = 470.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "factions"
+group = "_factions"
+entry = "curiosity"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Curiosity"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Fear" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer"]
+margin_left = 714.0
+margin_right = 1424.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Fear"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Fear/HBoxContainer"]
+margin_top = 1.0
+margin_right = 379.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_FEAR"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Fear/HBoxContainer"]
+margin_left = 383.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "factions"
+group = "_factions"
+entry = "fear"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Fear"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Greed" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer"]
+margin_top = 73.0
+margin_right = 710.0
+margin_bottom = 142.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Greed"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Greed/HBoxContainer"]
+margin_top = 1.0
+margin_right = 405.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_GREED"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Greed/HBoxContainer"]
+margin_left = 409.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "factions"
+group = "_factions"
+entry = "greed"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Greed"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Hostility" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer"]
+margin_left = 714.0
+margin_top = 73.0
+margin_right = 1424.0
+margin_bottom = 142.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Hostility"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Hostility/HBoxContainer"]
+margin_top = 1.0
+margin_right = 463.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_HOSTILITY"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Hostility/HBoxContainer"]
+margin_left = 467.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "factions"
+group = "_factions"
+entry = "hostility"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Hostility"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Support" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer"]
+margin_top = 146.0
+margin_right = 710.0
+margin_bottom = 215.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Support"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Support/HBoxContainer"]
+margin_top = 1.0
+margin_right = 453.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_SUPPORT"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Support/HBoxContainer"]
+margin_left = 457.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "factions"
+group = "_factions"
+entry = "support"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION/GridContainer/Support"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Reset" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_FACTION"]
+margin_top = 532.0
+margin_right = 1424.0
+margin_bottom = 573.0
+size_flags_horizontal = 3
+group = "_select_faction"
+text = "SAVEEDIT_REP_WIPE"
+script = ExtResource( 22 )
+path = "factions"
+group = "_select_faction"
+selector_node = NodePath("../Selectors/From/From")
+
+[node name="SAVEEDIT_REP_INDIVIDUAL" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 50.0
+margin_right = -1.0
+margin_bottom = -1.0
+
+[node name="Selectors" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL"]
+margin_right = 1424.0
+margin_bottom = 131.0
+
+[node name="From" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors"]
+margin_right = 676.0
+margin_bottom = 131.0
+size_flags_horizontal = 3
+
+[node name="From" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/From"]
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+script = ExtResource( 8 )
+path = "dispositions"
+call_group = "save_edit_select_disposition"
+call_func = "_on_data_changed"
+
+[node name="Name" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/From"]
+margin_top = 45.0
+margin_right = 676.0
+margin_bottom = 86.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/From/Name"]
+margin_top = 1.0
+margin_right = 342.0
+margin_bottom = 40.0
+text = "SAVEEDIT_RENAME"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/From/Name"]
+margin_left = 346.0
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+script = ExtResource( 19 )
+path = "dispositions"
+group = "_select_disposition"
+selector_node = NodePath("../../From")
+
+[node name="AddRemove" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/From"]
+margin_top = 90.0
+margin_right = 676.0
+margin_bottom = 131.0
+
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/From/AddRemove"]
+margin_right = 299.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_ADD"
+script = ExtResource( 16 )
+path = "dispositions"
+selector_node = NodePath("../../From")
+
+[node name="Remove" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/From/AddRemove"]
+margin_left = 303.0
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_select_disposition"
+text = "SAVEEDIT_REMOVE"
+script = ExtResource( 15 )
+path = "dispositions"
+group = "_select_disposition"
+selector_node = NodePath("../../From")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors"]
+margin_left = 680.0
+margin_right = 744.0
+margin_bottom = 131.0
+texture = ExtResource( 14 )
+
+[node name="To" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors"]
+margin_left = 748.0
+margin_right = 1424.0
+margin_bottom = 131.0
+size_flags_horizontal = 3
+
+[node name="To" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/To"]
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_select_disposition"
+script = ExtResource( 8 )
+group = "_select_disposition"
+call_group = "save_edit_dispositions"
+call_func = "_on_data_changed"
+
+[node name="Name" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/To"]
+margin_top = 45.0
+margin_right = 676.0
+margin_bottom = 86.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/To/Name"]
+margin_top = 1.0
+margin_right = 342.0
+margin_bottom = 40.0
+text = "SAVEEDIT_RENAME"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/To/Name"]
+margin_left = 346.0
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+script = ExtResource( 19 )
+path = "dispositions"
+group = "_dispositions"
+selector_node = NodePath("../../To")
+
+[node name="AddRemove" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/To"]
+margin_top = 90.0
+margin_right = 676.0
+margin_bottom = 131.0
+
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/To/AddRemove"]
+margin_right = 299.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_select_disposition"
+text = "SAVEEDIT_ADD"
+script = ExtResource( 16 )
+group = "_select_disposition"
+selector_node = NodePath("../../To")
+
+[node name="Remove" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/Selectors/To/AddRemove"]
+margin_left = 303.0
+margin_right = 676.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+group = "_dispositions"
+text = "SAVEEDIT_REMOVE"
+script = ExtResource( 15 )
+group = "_dispositions"
+selector_node = NodePath("../../To")
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL"]
+margin_top = 135.0
+margin_right = 1424.0
+margin_bottom = 528.0
+size_flags_vertical = 3
+columns = 2
+
+[node name="Curiosity" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer"]
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Curiosity"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Curiosity/HBoxContainer"]
+margin_top = 1.0
+margin_right = 466.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_CURIOSITY"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Curiosity/HBoxContainer"]
+margin_left = 470.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "dispositions"
+group = "_dispositions"
+entry = "curiosity"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Curiosity"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Fear" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer"]
+margin_left = 714.0
+margin_right = 1424.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Fear"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Fear/HBoxContainer"]
+margin_top = 1.0
+margin_right = 379.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_FEAR"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Fear/HBoxContainer"]
+margin_left = 383.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "dispositions"
+group = "_dispositions"
+entry = "fear"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Fear"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Greed" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer"]
+margin_top = 73.0
+margin_right = 710.0
+margin_bottom = 142.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Greed"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Greed/HBoxContainer"]
+margin_top = 1.0
+margin_right = 405.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_GREED"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Greed/HBoxContainer"]
+margin_left = 409.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "dispositions"
+group = "_dispositions"
+entry = "greed"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Greed"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Hostility" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer"]
+margin_left = 714.0
+margin_top = 73.0
+margin_right = 1424.0
+margin_bottom = 142.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Hostility"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Hostility/HBoxContainer"]
+margin_top = 1.0
+margin_right = 463.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_HOSTILITY"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Hostility/HBoxContainer"]
+margin_left = 467.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "dispositions"
+group = "_dispositions"
+entry = "hostility"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Hostility"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Support" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer"]
+margin_top = 146.0
+margin_right = 710.0
+margin_bottom = 215.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Support"]
+margin_right = 710.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Support/HBoxContainer"]
+margin_top = 1.0
+margin_right = 453.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_REP_SUPPORT"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Support/HBoxContainer"]
+margin_left = 457.0
+margin_right = 710.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+script = ExtResource( 5 )
+path = "dispositions"
+group = "_dispositions"
+entry = "support"
+node_paths = [ NodePath("."), NodePath("../../HSlider") ]
+range_min = -2.0
+range_max = 2.0
+range_step = 0.001
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL/GridContainer/Support"]
+margin_top = 45.0
+margin_right = 710.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+
+[node name="Reset" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_FACTIONS/TabContainer/SAVEEDIT_REP_INDIVIDUAL"]
+margin_top = 532.0
+margin_right = 1424.0
+margin_bottom = 573.0
+size_flags_horizontal = 3
+group = "_select_disposition"
+text = "SAVEEDIT_REP_WIPE"
+script = ExtResource( 22 )
+path = "dispositions"
+group = "_select_disposition"
+selector_node = NodePath("../Selectors/From/From")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 679.0

@@ -1,34 +1,32 @@
-extends SpinBox
+extends "res://SaveEdit/tools/templates/EditKey.gd"
 
+export (Array, NodePath) var node_paths
+var nodes : Array
 
-export (String) var path = ""
-export (String) var entry = ""
-export (String) var group_suffix = ""
-
-var data : Dictionary
+export (float) var range_min = 0.0
+export (float) var range_max = 1.0
+export (float) var range_step = 1.0
+#export (Vector3) var value_range = Vector3(0, 1, 1)
 
 func _ready():
-	add_to_group("save_edit%s" % group_suffix)
-	connect("value_changed", self, "_on_value_changed")
+	for node in node_paths:
+		node = get_node(node)
+		nodes.append(node)
+		node.connect("value_changed", self, "_on_value_changed")
+		node.min_value = range_min
+		node.max_value = range_max
+		node.step = range_step
 
 func _on_value_changed(new_value):
+	for node in nodes: node.value = new_value
 	data[entry] = new_value
 
-func _on_save_changed():
-	_on_data_changed()
+func enable_editing():
+	for node in nodes:
+		node.value = data[entry]
+		node.editable = true
 
-func _on_data_changed(target : String = ""):
-	data = CurrentGame.state
-	if path:
-		for category in path.split("."):
-			data = data[category]
-	if target:
-		data = data[target]
-
-	value = data[entry]
-	editable = true
-
-func _on_no_target():
-	data = {}
-	editable = false
-	value = 0
+func disable_editing():
+	for node in nodes:
+		node.value = 0
+		node.editable = false
