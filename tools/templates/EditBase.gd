@@ -18,6 +18,9 @@ func _on_data_changed(new_data = null, new_key = ""):
 	print("%s missing override for `_on_data_changed()`" % self)
 	enable_editing()
 
+func _on_key_changed(new_data = null, new_key = ""):
+	_on_data_changed(new_data, new_key)
+
 func _on_no_target(new_data = null):
 	print("%s missing override for `_on_no_target()`" % self)
 	disable_editing()

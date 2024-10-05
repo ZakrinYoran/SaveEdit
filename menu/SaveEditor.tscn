@@ -181,8 +181,88 @@ margin_right = 1416.0
 margin_bottom = 69.0
 size_flags_horizontal = 3
 
-[node name="Buffer" type="Control" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+[node name="Minerals" type="VBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
 margin_top = 208.0
+margin_right = 1416.0
+margin_bottom = 294.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals"]
+margin_right = 1416.0
+margin_bottom = 41.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals/HBoxContainer"]
+margin_top = 1.0
+margin_right = 538.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_STORAGE_MINERAL"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals/HBoxContainer"]
+margin_left = 542.0
+margin_right = 977.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+script = ExtResource( 8 )
+path = "storage.minerals"
+call_group = "save_edit_minerals"
+call_func = "_on_key_changed"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals/HBoxContainer"]
+margin_left = 981.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 2
+suffix = "Kg"
+script = ExtResource( 5 )
+group = "_minerals"
+node_paths = [ NodePath(".") ]
+range_max = 1e+07
+range_step = 0.001
+
+[node name="AddRemove" type="HBoxContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals"]
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 86.0
+alignment = 2
+
+[node name="Add" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals/AddRemove"]
+margin_right = 469.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "SAVEEDIT_ADD"
+script = ExtResource( 16 )
+path = "storage.minerals"
+selector_node = NodePath("../../HBoxContainer/OptionButton")
+
+[node name="Name" type="LineEdit" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals/AddRemove"]
+margin_left = 473.0
+margin_right = 942.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+align = 1
+placeholder_text = "SAVEEDIT_MINERAL_NAME"
+script = ExtResource( 19 )
+path = "storage.minerals"
+group = "_minerals"
+selector_node = NodePath("../../HBoxContainer/OptionButton")
+
+[node name="Remove" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/Minerals/AddRemove"]
+margin_left = 946.0
+margin_right = 1416.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+group = "_minerals"
+text = "SAVEEDIT_REMOVE"
+script = ExtResource( 15 )
+path = "storage.minerals"
+group = "_minerals"
+selector_node = NodePath("../../HBoxContainer/OptionButton")
+
+[node name="Buffer" type="Control" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 298.0
 margin_right = 1416.0
 margin_bottom = 477.0
 size_flags_vertical = 3

@@ -8,7 +8,7 @@ func _ready():
 	connect("text_entered", self, "_on_name_changed")
 
 func _on_name_changed(_t = ""):
-	data[self.text] = data[current_key].duplicate(true)
+	data[self.text] = data[current_key]#.duplicate(true)
 	data.erase(current_key)
 	selector_node.fill_options(true)
 
