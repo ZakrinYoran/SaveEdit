@@ -181,29 +181,68 @@ margin_right = 1416.0
 margin_bottom = 69.0
 size_flags_horizontal = 3
 
-[node name="ClearLogs" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+[node name="Buffer" type="Control" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
 margin_top = 208.0
 margin_right = 1416.0
-margin_bottom = 249.0
+margin_bottom = 477.0
+size_flags_vertical = 3
+
+[node name="ClearLogs" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 481.0
+margin_right = 1416.0
+margin_bottom = 522.0
+size_flags_horizontal = 3
 text = "SAVEEDIT_CLEAR_LOGS"
 script = ExtResource( 22 )
 path = "logs"
 
-[node name="ClearDensityMap" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
-margin_top = 253.0
+[node name="WipeButtons" type="GridContainer" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 526.0
 margin_right = 1416.0
-margin_bottom = 294.0
+margin_bottom = 612.0
+columns = 2
+
+[node name="ClearDensityMap" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/WipeButtons"]
+margin_right = 706.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
 text = "SAVEEDIT_CLEAR_DENSITY_MAP"
 script = ExtResource( 22 )
 path = "density.map"
 
-[node name="ClearDensityQueue" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
-margin_top = 298.0
+[node name="ClearDensityQueue" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/WipeButtons"]
+margin_left = 710.0
 margin_right = 1416.0
-margin_bottom = 339.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
 text = "SAVEEDIT_CLEAR_DENSITY_QUEUE"
 script = ExtResource( 22 )
 path = "density.queue"
+
+[node name="ClearCooldowns" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/WipeButtons"]
+margin_top = 45.0
+margin_right = 706.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_CLEAR_COOLDOWNS"
+script = ExtResource( 22 )
+path = "ui"
+
+[node name="ClearPlaytime" type="Button" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer/WipeButtons"]
+margin_left = 710.0
+margin_top = 45.0
+margin_right = 1416.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+text = "SAVEEDIT_CLEAR_PLAYTIME"
+script = ExtResource( 22 )
+path = "playtime"
+
+[node name="Buffer2" type="Control" parent="VBoxContainer/TabContainer/SAVEEDIT_GENERAL/VBoxContainer"]
+margin_top = 616.0
+margin_right = 1416.0
+margin_bottom = 624.0
+rect_min_size = Vector2( 0, 8 )
 
 [node name="SAVEEDIT_ASTROGATION" type="Tabs" parent="VBoxContainer/TabContainer"]
 visible = false
