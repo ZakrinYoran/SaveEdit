@@ -15,6 +15,7 @@ func _ready():
 func _on_SaveGame_pressed():
 	CurrentGame.state.hash = 0
 	CurrentGame.saveToFile()
+	hide()
 
 func _on_ExportGame_pressed():
 	import = false
